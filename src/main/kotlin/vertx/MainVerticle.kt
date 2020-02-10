@@ -19,9 +19,9 @@ class MainVerticle : AbstractVerticle() {
     override fun start() {
         val option = DeploymentOptions().setConfig(
             JsonObject()
-                .put("username", "username")
-                .put("password", "password")
-                .put("xkid", "3E90176099AB4B3DA057E81E0FBD5181")
+                .put("username", "11811712")
+                .put("password", "240013")
+                .put("xkid", "B013AC5442024366A95E4799E19EA076")
         )
 
         vertx.eventBus().registerDefaultCodec(CookieStoreImpl::class.java, CookieStoreMessageCodec())
