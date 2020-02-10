@@ -15,7 +15,8 @@ class XuanKe(val session: WebClientSession, kes: List<Ke>) {
 
     private val states = kes.map { State(it) }
 
-    private val scope = CoroutineScope(Vertx.currentContext().dispatcher())
+    private val context = Vertx.currentContext().dispatcher()
+    private val scope = CoroutineScope(context)
 
     data class State(val ke: Ke, var success: Boolean = false, var message: String = "")
 
@@ -29,13 +30,13 @@ class XuanKe(val session: WebClientSession, kes: List<Ke>) {
     }
 
     suspend fun selectAll() {
-        states.forEach {
-            if (!it.success) {
-                scope.launch {
+        scope.launch {
+            states.filter { !it.success }.forEach {
+                launch {
                     select(it)
                 }
             }
-        }
+        }.join()
     }
 
     suspend fun select(state: State): Boolean {
